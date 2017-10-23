@@ -1,7 +1,7 @@
 USE MASTER;
 
-DROP DATABASE PROPINA;
-GO
+--DROP DATABASE PROPINA;
+--GO
 CREATE DATABASE PROPINA;
 GO
 
@@ -16,6 +16,7 @@ USE PROPINA;
 --DROP TABLE dbo.REPARTO;
 --DROP TABLE dbo.RESPARTO_EMPLEADO;
 --DROP TABLE dbo.DATOS;
+--DROP TABLE dbo.MOVIMIENTOS;
 
 CREATE TABLE dbo.CARGO
 (
@@ -92,10 +93,11 @@ CREATE TABLE dbo.REPARTO
 (
 	Id	INT  NOT NULL IDENTITY(1,1),
 	FechaReparto DATETIME NOT NULL,
-	FechaRealizado DATETIME NOT NULL,
+	--FechaRealizado DATETIME NOT NULL,
 	AdministradorId INT NOT NULL,
 	MontoPesos NUMERIC(12,2) NOT NULL,
 	MontoDolares NUMERIC(12,2) NOT NULL,
+	Eliminado BIT NOT NULL,
 	
 
 	CONSTRAINT PK_REPARTO PRIMARY KEY(Id),
@@ -103,9 +105,10 @@ CREATE TABLE dbo.REPARTO
 );
 GO
 
-CREATE TABLE dbo.REPARTO_EMPLEADO
+CREATE TABLE dbo.REPARTO_EMPLEADO 
 (
 	Id	INT  NOT NULL IDENTITY(1,1),
+	EmpleadoId INT NOT NULL,
 	RepartoId	INT  NOT NULL,
 	Ausencias NUMERIC(4,1) NOT NULL,
 	AusenciasAsamblea NUMERIC(4,1) NOT NULL,
@@ -121,6 +124,7 @@ CREATE TABLE dbo.REPARTO_EMPLEADO
 	PagoExtraDolares NUMERIC(8,2) NOT NULL,--PAGO COMISION U OTROS
 
 	CONSTRAINT PK_REPARTO_EMPLEADO PRIMARY KEY(Id),
+	CONSTRAINT FK_EmpleadoId_REPARTO_EMPLEADO FOREIGN KEY (EmpleadoId) REFERENCES dbo.EMPLEADO (UsuarioId),
 	CONSTRAINT FK_RepartoId_REPARTO_EMPLEADO FOREIGN KEY (RepartoId) REFERENCES dbo.REPARTO (Id)
 );
 GO
@@ -128,7 +132,7 @@ GO
 CREATE TABLE dbo.DATOS
 (
 	Id	INT  NOT NULL IDENTITY(1,1),
-	FechaUltipoCambio DATETIME NOT NULL,
+	--FechaUltipoCambio DATETIME NOT NULL,
 	AdministradorId INT,
 	UltimoRepartoId INT,	
 	MontoFondoPesos NUMERIC(12,2) NOT NULL,
@@ -147,7 +151,96 @@ CREATE TABLE dbo.DATOS
 GO
 
 INSERT INTO dbo.DATOS VALUES
-(GETDATE(), NULL, NULL, 0, 0, 5000, 0, 88, 12, 2);
+(NULL, NULL, 0, 0, 5000, 0, 88, 12, 2);
+
+CREATE TABLE dbo.MOVIMIENTOS
+(
+	Id	INT  NOT NULL IDENTITY(1,1),
+	Fecha DATETIME NOT NULL,
+	AdministradorAnteriorId INT,
+	AdministradorNuevoId INT,
+	TipoRegistro NVARCHAR(20) NOT NULL,	--reparto o datos
+	TipoMovimiento NVARCHAR(20) NOT NULL, --delete, update, insert
+	RepartoId INT,
+	DatosId INT,
+
+	CONSTRAINT PK_MOVIMIENTOS PRIMARY KEY(Id),
+	CONSTRAINT FK_AdministradorAnteriorId_MOVIMIENTOS FOREIGN KEY (AdministradorAnteriorId) REFERENCES dbo.ADMINISTRADOR (UsuarioId),
+	CONSTRAINT FK_AdministradorNuevoId_MOVIMIENTOS FOREIGN KEY (AdministradorNuevoId) REFERENCES dbo.ADMINISTRADOR (UsuarioId),
+	CONSTRAINT CK_COL_TipoRegistro_InValores_TAB_MOVIMIENTOS CHECK (TipoRegistro in('REPARTO', 'DATOS')),
+	CONSTRAINT CK_COL_TipoMovimiento_InValores_TAB_MOVIMIENTOS CHECK (TipoMovimiento in('DELETE', 'UPDATE', 'INSERT')),
+	CONSTRAINT FK_RepartoId_MOVIMIENTOS FOREIGN KEY (RepartoId) REFERENCES dbo.REPARTO (Id),
+	CONSTRAINT FK_DatosId_MOVIMIENTOS FOREIGN KEY (DatosId) REFERENCES dbo.DATOS (Id)
+);
+GO
+
+--*************************************
+--				TRIGGERS
+--*************************************
+
+CREATE TRIGGER dbo.REPARTO_TRIGGER 
+ON dbo.REPARTO
+AFTER INSERT, UPDATE --,DELETE
+AS
+BEGIN
+	DECLARE @idAdminAnterior int;
+	DECLARE @idAdminNuevo int;
+	DECLARE @idReparto int;
+	
+	IF EXISTS(SELECT * FROM inserted)
+	 BEGIN 
+	  SELECT @idAdminNuevo=i.AdministradorId, @idReparto=i.Id FROM inserted i;
+	  IF EXISTS(SELECT * FROM deleted)
+		BEGIN --Si es un update
+			SELECT @idAdminAnterior=d.AdministradorId FROM deleted d;
+			INSERT INTO dbo.MOVIMIENTOS VALUES(GETDATE(), @idAdminAnterior, @idAdminNuevo, 'REPARTO', 'UPDATE', @idReparto, NULL);
+		END
+	  ELSE
+		BEGIN --Si es un insert                            
+			INSERT INTO dbo.MOVIMIENTOS VALUES(GETDATE(), NULL, @idAdminNuevo, 'REPARTO', 'INSERT', @idReparto, NULL);
+		END
+	 END
+	--ELSE     
+	-- BEGIN --si es un delete    
+	--	SELECT @idAdminAnterior=d.AdministradorId FROM deleted d;                     
+	--	INSERT INTO dbo.MOVIMIENTOS VALUES(GETDATE(), NULL, @idAdminNuevo, 'REPARTO', 'INSERT', @idReparto, NULL);
+	-- END
+END;
+GO
+
+CREATE TRIGGER dbo.DATOS_TRIGGER 
+ON dbo.DATOS
+AFTER UPDATE 
+AS
+BEGIN
+	DECLARE @idAdminAnterior int;
+	DECLARE @idAdminNuevo int;
+	DECLARE @idDatos int;
+	
+	IF EXISTS(SELECT * FROM inserted)
+	 BEGIN 
+	  IF EXISTS(SELECT * FROM deleted)
+		BEGIN --Si es un update
+			SELECT @idAdminNuevo=i.AdministradorId, @idDatos=i.Id FROM inserted i;
+			SELECT @idAdminAnterior=d.AdministradorId FROM deleted d;
+			INSERT INTO dbo.MOVIMIENTOS VALUES(GETDATE(), @idAdminAnterior, @idAdminNuevo, 'DATOS', 'UPDATE', NULL, @idDatos);
+		END	  
+	 END
+END;
+GO
+
+--*************************************
+--				DATOS
+--*************************************
+
+INSERT INTO dbo.USUARIO VALUES
+('FEDERICO', 'SPERONI', 'FSPE', '123456789', 1, '42614099', '099845498', 'fsperonip@hotmail.com', 'ADMINISTRADOR');
+INSERT INTO dbo.ADMINISTRADOR VALUES
+(1);
+
+--*************************************
+--				SELECTS
+--*************************************
 
 SELECT * FROM dbo.CARGO;
 SELECT * FROM dbo.USUARIO;
@@ -157,3 +250,7 @@ SELECT * FROM dbo.VISITANTE;
 SELECT * FROM dbo.REPARTO;
 SELECT * FROM dbo.REPARTO_EMPLEADO;
 SELECT * FROM dbo.DATOS;
+SELECT * FROM dbo.MOVIMIENTOS;
+
+
+
