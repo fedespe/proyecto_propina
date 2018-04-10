@@ -1,0 +1,2 @@
+*No estan llegando los cargo mes al javascript.
+*Agregar en la BD una tabla para poder registrar en cada reparto el cargo y los dias trabajados en ese cargo.

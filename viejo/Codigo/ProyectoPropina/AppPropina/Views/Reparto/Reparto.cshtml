@@ -1,0 +1,112 @@
+﻿@model AppPropina.ViewModel.RepartoViewModel.RepartoViewModel
+@{
+    ViewBag.Title = "Reparto";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Reparto.js"></script>
+<div class="row">
+    <div class="col-md-12">
+
+        <div id="divReparto">
+            <h2>Reparto</h2>
+
+            <div class="form-group">
+                <label for="Admin" class="control-label">Administrador Localstorage</label>
+            </div>
+            <div class="form-group">
+                <label for="FechaReparto" class="control-label">Fecha Reparto</label>
+                <input type="date" class="form-control" id="FechaReparto" name="FechaReparto">
+            </div>
+            <div class="form-group">
+                <label for="MontoPesos" class="control-label">Monto Pesos</label>
+                <input type="number" class="form-control" id="MontoPesos" name="MontoPesos">
+            </div>
+            <div class="form-group">
+                <label for="MontoDolares" class="control-label">Monto Dolares</label>
+                <input type="number" class="form-control" id="MontoDolares" name="MontoDolares">
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ausencias</th>
+                        <th>Ausencias Asamblea</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var c in Model.Reparto.Empleados)
+                    {
+                        var ausencias = "txtAusencias" + c.Id;
+                        var ausenciasAsamblea = "txtAusencias" + c.Id;
+                        <tr>
+                            <td>@c.Apellido @c.Nombre</td>
+                            <td><input class="form-control" type="number" id="@ausencias" /></td>
+                            <td><input class="form-control" type="number" id="@ausenciasAsamblea" /></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary" onclick="cargarDatos()">CargarDatos</button>
+        </div>  
+         
+        <div id="divRepartoCompleto">
+            <h2>Reparto Completo</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha Reparto</th>
+                        <th>Monto Pesos</th>
+                        <th>Monto Dolares</th>
+                        <th>Fondo Pesos</th>
+                        <th>Fondo Dolares</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td id="FechaRepartoCompleto"></td>
+                        <td id="MontoPesosCompleto"></td>
+                        <td id="MontoDolaresCompleto"></td>
+                        <td id="FondoPesosCompleto"></td>
+                        <td id="FondoDolaresCompleto"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ausencias</th>
+                        <th>Ausencias Asamblea</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var c in Model.Reparto.Empleados)
+                    {
+                        var nombre = "nombreEC" + c.Id;
+                        var ausencias = "ausenciasEC" + c.Id;
+                        var ausenciasAsamblea = "ausenciasAsambleaEC" + c.Id;
+                        <tr>
+                            <td id="@nombre"></td>
+                            <td id="@ausencias"></td>
+                            <td id="@ausenciasAsamblea"></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+            <button class="btn btn-danger" onclick="ocultarRepartoCompleto()">Volver</button>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,44 @@
+﻿@model List<ET.Planilla>
+@{
+    ViewBag.Title = "ListaPlanillas";
+}
+
+<div class="row">
+    @*@Html.Partial("_MenuPartial")*@
+    <div class="col-md-10">
+        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+        {
+            <h2>
+                Planillas
+                <button type="button" class="btn btn-success pull-right" OnClick="location.href = 'AltaPlanilla'">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Planilla
+                </button>
+            </h2>
+        }
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Planilla</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.Texto</td>
+                        <td>@c.empleado.Apellido</td>
+                        <td>
+                            <a title="Ver" href="~/Planilla/Editar/@c.Id">Editar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
