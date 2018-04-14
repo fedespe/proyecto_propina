@@ -78,7 +78,7 @@ namespace PropinaWeb.Controllers
             {
                 try
                 {
-                    crearVM.completarPregunta();
+                    crearVM.completarPlanilla();
                     planillaBL.altaPlanilla(crearVM.planilla);
                     return RedirectToAction("ListaPlanillas");
                 }
@@ -92,6 +92,135 @@ namespace PropinaWeb.Controllers
                 return View(crearVM);
             }
         }
+        //GET: Planilla/Ver
+        public ActionResult Ver(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO") || Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        AltaPlanillaViewModel viewModel = new AltaPlanillaViewModel();
+                        viewModel.planilla = planillaBL.obtener(id);
+                        viewModel.Empleado = new Empleado { Id= Convert.ToInt32(Session["IdUsuario"]) };
+                        EmpleadoBL emp = new EmpleadoBL();
+                        viewModel.planilla.empleado = emp.obtener(viewModel.planilla.empleado.Id);
+                        viewModel.comprobarFirmas();
+                        //viewModel.completarAltaPlanillaVM();
+                        return View(viewModel);
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+        //GET: Planilla/FirmarPlanilla
+        public ActionResult FirmarPlanilla(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        planillaBL.firmarPlanilla(id, Convert.ToInt32(Session["IdUsuario"]));
+                        ViewBag.Mensaje = "Firma realizada con éxito";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+        //GET: Planilla/FirmarPlanilla
+        public ActionResult QuitarFirmarPlanilla(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        planillaBL.quitarFirmarPlanilla(id, Convert.ToInt32(Session["IdUsuario"]));
+                        ViewBag.Mensaje = "Se quitó la firma con éxito";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
         //GET: Planilla/Editar
         public ActionResult Editar(int id = 0)

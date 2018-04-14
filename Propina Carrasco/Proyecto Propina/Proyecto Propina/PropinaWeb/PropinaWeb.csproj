@@ -240,6 +240,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Cuenta\Login.cshtml" />
     <Content Include="Views\Planilla\ListaPlanillas.cshtml" />
+    <Content Include="Views\Planilla\AltaPlanilla.cshtml" />
+    <Content Include="Views\Shared\_Mensajes.cshtml" />
+    <Content Include="Views\Planilla\Ver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

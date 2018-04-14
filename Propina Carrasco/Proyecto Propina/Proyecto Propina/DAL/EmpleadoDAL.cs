@@ -55,5 +55,48 @@ namespace DAL
             return emp;
         
         }
+
+        public Empleado obtener(int id)
+        {
+            Empleado emp = null;
+            string cadenaSelectUsuario = "SELECT * FROM Usuario WHERE Id=@id AND Tipo='EMPLEADO'";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    using (SqlCommand cmd = new SqlCommand(cadenaSelectUsuario, con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        con.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            dr.Read();
+                            if (dr.HasRows)
+                            {
+                                emp = new Empleado
+                                {
+                                    Id = Convert.ToInt32(dr["Id"]),
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Apellido = dr["Apellido"].ToString(),
+                                    NombreUsuario = dr["NombreUsuario"].ToString(),
+                                    Contrasena = dr["Contrasenia"].ToString(),
+                                    Habilitado = Convert.ToBoolean(dr["Habilitado"]),
+                                    CorreoElectronico = dr["Email"].ToString(),
+                                    Telefono = dr["Telefono"].ToString(),
+                                    Direccion = dr["Direccion"].ToString(),
+                                    Tipo = dr["Tipo"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+
+            return emp;
+        }
     }
 }

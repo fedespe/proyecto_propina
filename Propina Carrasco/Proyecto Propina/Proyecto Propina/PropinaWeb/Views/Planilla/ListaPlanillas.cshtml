@@ -19,8 +19,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Planilla</th>
                     <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -29,10 +30,28 @@
                 @foreach (var c in Model)
                 {
                     <tr>
-                        <td>@c.Texto</td>
-                        <td>@c.empleado.Apellido</td>
+                        <td>@c.empleado.Nombre, @c.empleado.Apellido</td>
+                        <td>Planilla</td>
+                        @if (c.Habilitada)
+                        {
+                            <td>Nueva</td>
+                        }
+                        else {
+                            <td>Finalizada</td>
+                        }
                         <td>
-                            <a title="Ver" href="~/Planilla/Editar/@c.Id">Editar</a>
+                            <a title="Ver" href="~/Planilla/Ver/@c.Id">Ver</a>
+                            @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+                            {
+                                if (c.Habilitada)
+                                {
+                                    <a title="Finalizar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/Finalizar/@c.Id">Finalizar</a>
+                                }
+                                else {
+                                    <a title="Habilitar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/Habilitar/@c.Id">Hablitar</a>
+                                }
+                                <a title="Inhabilitar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Planilla/Eliminar/@c.Id">Eliminar</a>
+                            }
                         </td>
                     </tr>
                 }

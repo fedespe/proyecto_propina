@@ -14,5 +14,6 @@ namespace ET
         public List<Empleado> Empleados { get; set; }
         public bool Habilitada { get; set; }
         public Empleado empleado { get; set; }
+        public bool Eliminado { get; set; }
     }
 }

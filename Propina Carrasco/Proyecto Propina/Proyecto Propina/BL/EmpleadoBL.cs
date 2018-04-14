@@ -15,5 +15,10 @@ namespace BL
         {
             return empleadoDAL.ingresarEmpleado(nombreUsu, pass);
         }
+
+        public Empleado obtener(int id)
+        {
+            return empleadoDAL.obtener(id);
+        }
     }
 }

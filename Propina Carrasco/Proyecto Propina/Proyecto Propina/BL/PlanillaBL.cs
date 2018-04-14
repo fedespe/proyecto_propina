@@ -35,12 +35,22 @@ namespace BL
 
         public Planilla obtener(int id)
         {
-            throw new NotImplementedException();
+            return planillaDAL.obtener(id);
         }
 
         public void actualizarPlanilla(Planilla planilla)
         {
             throw new NotImplementedException();
+        }
+
+        public void firmarPlanilla(int id, int idEmpleado)
+        {
+            planillaDAL.firmarPlanilla(id, idEmpleado);
+        }
+
+        public void quitarFirmarPlanilla(int id, int idEmpleado)
+        {
+            planillaDAL.quitarFirmarPlanilla(id, idEmpleado);
         }
     }
 }
