@@ -103,11 +103,12 @@ namespace PropinaWeb.Controllers
                     {
                         AltaPlanillaViewModel viewModel = new AltaPlanillaViewModel();
                         viewModel.planilla = planillaBL.obtener(id);
-                        viewModel.Empleado = new Empleado { Id= Convert.ToInt32(Session["IdUsuario"]) };
                         EmpleadoBL emp = new EmpleadoBL();
+                        viewModel.Empleado = emp.obtener(Convert.ToInt32(Session["IdUsuario"]));
                         viewModel.planilla.empleado = emp.obtener(viewModel.planilla.empleado.Id);
-                        viewModel.comprobarFirmas();
-                        //viewModel.completarAltaPlanillaVM();
+                        if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO")) {
+                            viewModel.comprobarFirmas();
+                        }
                         return View(viewModel);
                     }
                     else {
@@ -173,7 +174,7 @@ namespace PropinaWeb.Controllers
                 }
             }
         }
-        //GET: Planilla/FirmarPlanilla
+        //GET: Planilla/QuitarFirmarPlanilla
         public ActionResult QuitarFirmarPlanilla(int id = 0)
         {
             if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO")))
@@ -212,18 +213,8 @@ namespace PropinaWeb.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-        //GET: Planilla/Editar
-        public ActionResult Editar(int id = 0)
+        //GET: Planilla/HabilitarPlanilla
+        public ActionResult HabilitarPlanilla(int id = 0)
         {
             if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
@@ -231,10 +222,8 @@ namespace PropinaWeb.Controllers
                 {
                     if (id != 0)
                     {
-                        AltaPlanillaViewModel editVM = new AltaPlanillaViewModel();
-                        editVM.planilla = planillaBL.obtener(id);
-                        editVM.completarAltaPlanillaVM();
-                        return View(editVM);
+                        planillaBL.habilitarPlanilla(id);
+                        return RedirectToAction("ListaPlanillas");
                     }
                     else {
                         ViewBag.Mensaje = "No selecciono el usuario correctamente.";
@@ -262,19 +251,22 @@ namespace PropinaWeb.Controllers
             }
         }
 
-        //POST: Planilla/Editar
-        [HttpPost]
-        public ActionResult Editar(AltaPlanillaViewModel editVM)
+        //GET: Planilla/HabilitarPlanilla
+        public ActionResult DeshabilitarPlanilla(int id = 0)
         {
-            if (ModelState.IsValid)
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
                 try
                 {
-                    editVM.completarPlanilla();
-                    planillaBL.actualizarPlanilla(editVM.planilla);
-
-                    return RedirectToAction("ListaPlanillas");
-
+                    if (id != 0)
+                    {
+                        planillaBL.deshabilitarPlanilla(id);
+                        return RedirectToAction("ListaPlanillas");
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
                 }
                 catch (ProyectoException ex)
                 {
@@ -282,9 +274,92 @@ namespace PropinaWeb.Controllers
                     return View("~/Views/Shared/_Mensajes.cshtml");
                 }
             }
-            else {
-                return View(editVM);
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
             }
         }
+
+
+
+
+
+
+
+
+
+        ////GET: Planilla/Editar
+        //public ActionResult Editar(int id = 0)
+        //{
+        //    if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
+        //    {
+        //        try
+        //        {
+        //            if (id != 0)
+        //            {
+        //                AltaPlanillaViewModel editVM = new AltaPlanillaViewModel();
+        //                editVM.planilla = planillaBL.obtener(id);
+        //                editVM.completarAltaPlanillaVM();
+        //                return View(editVM);
+        //            }
+        //            else {
+        //                ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+        //                return View("~/Views/Shared/_Mensajes.cshtml");
+        //            }
+        //        }
+        //        catch (ProyectoException ex)
+        //        {
+        //            ViewBag.Mensaje = ex.Message;
+        //            return View("~/Views/Shared/_Mensajes.cshtml");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+        //            return View("~/Views/Shared/_Mensajes.cshtml");
+        //        }
+        //        catch (ProyectoException ex)
+        //        {
+        //            ViewBag.Mensaje = ex.Message;
+        //            return View("~/Views/Shared/_Mensajes.cshtml");
+        //        }
+        //    }
+        //}
+
+        ////POST: Planilla/Editar
+        //[HttpPost]
+        //public ActionResult Editar(AltaPlanillaViewModel editVM)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            editVM.completarPlanilla();
+        //            planillaBL.actualizarPlanilla(editVM.planilla);
+
+        //            return RedirectToAction("ListaPlanillas");
+
+        //        }
+        //        catch (ProyectoException ex)
+        //        {
+        //            ViewBag.Mensaje = ex.Message;
+        //            return View("~/Views/Shared/_Mensajes.cshtml");
+        //        }
+        //    }
+        //    else {
+        //        return View(editVM);
+        //    }
+        //}
     }
 }

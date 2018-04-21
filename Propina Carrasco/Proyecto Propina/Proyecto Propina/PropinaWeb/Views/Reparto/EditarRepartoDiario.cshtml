@@ -1,0 +1,55 @@
+﻿@model PropinaWeb.ViewModel.RepartoViewModel.EditarRepartoDiarioViewModel
+@{
+    ViewBag.Title = "EditarRepartoDiario";
+}
+
+<h2>EditarRepartoDiario</h2>
+
+
+<div class="row">
+    <div class="col-md-10 pull-right">
+        <h2>Editar Reparto Diario</h2>
+
+        @using (Html.BeginForm("EditarRepartoDiario", "Reparto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            //Seguridad
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.RepartoDiario.Id)
+            @Html.HiddenFor(x => x.RepartoDiario.Reparto.Id)
+
+            //Lista de errores
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.RepartoDiario.MontoPesosMesas, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.RepartoDiario.MontoPesosMesas, new { @id = "MontoPesosMesas", @class = "form-control", @placeholder = "MontoPesosMesas" })
+                @Html.ValidationMessageFor(x => x.RepartoDiario.MontoPesosMesas, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.RepartoDiario.MontoDolaresMesas, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.RepartoDiario.MontoDolaresMesas, new { @id = "MontoDolaresMesas", @class = "form-control", @placeholder = "MontoDolaresMesas" })
+                @Html.ValidationMessageFor(x => x.RepartoDiario.MontoDolaresMesas, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.RepartoDiario.MontoPesosOtros, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.RepartoDiario.MontoPesosOtros, new { @id = "MontoPesosOtros", @class = "form-control", @placeholder = "MontoPesosOtros" })
+                @Html.ValidationMessageFor(x => x.RepartoDiario.MontoPesosOtros, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.RepartoDiario.MontoDolaresOtros, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(x => x.RepartoDiario.MontoDolaresOtros, new { @id = "MontoDolaresOtros", @class = "form-control", @placeholder = "MontoDolaresOtros" })
+                @Html.ValidationMessageFor(x => x.RepartoDiario.MontoDolaresOtros, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div>FALTA SELECCIONAR FECHA...</div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Actualizar
+            </button>
+        }
+    </div>
+</div>
+
+
+

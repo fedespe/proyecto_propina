@@ -57,6 +57,43 @@ namespace DAL
             }
         }
 
+        public void habilitarPlanilla(int id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("Update Planilla SET Habilitada = 1 WHERE id = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+        }
+        public void deshabilitarPlanilla(int id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("Update Planilla SET Habilitada = 0 WHERE id = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+        }
+
         public void firmarPlanilla(int id, int idEmpleado)
         {
             try

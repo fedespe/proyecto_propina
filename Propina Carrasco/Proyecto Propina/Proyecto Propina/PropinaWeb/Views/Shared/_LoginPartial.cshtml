@@ -16,14 +16,15 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+        @*@if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
         {
             <li>
                 @Html.ActionLink(Session["NombreUsuario"].ToString(), "Editar", "Administrador", new { Id = Convert.ToInt32(Session["IdUsuario"]) }, null)
             </li>
-        }
+        }*@
         @if (Session["TipoUsuario"] != null)
         {
+            <li>@Html.ActionLink("Repartos", "MostrarDatos", "Reparto")</li>
             <li>@Html.ActionLink("Planillas", "ListaPlanillas", "Planilla")</li>
             <li>@Html.ActionLink("Cerrar sesión", "Logoff", "Cuenta", routeValues: null, htmlAttributes: new { id = "logoffLink" })</li>
         }

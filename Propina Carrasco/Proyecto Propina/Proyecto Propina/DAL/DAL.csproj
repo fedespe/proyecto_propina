@@ -44,6 +44,8 @@
     <Compile Include="EmpleadoDAL.cs" />
     <Compile Include="PlanillaDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepartoDAL.cs" />
+    <Compile Include="RepartoDiarioDAL.cs" />
     <Compile Include="UsuarioDAL.cs" />
   </ItemGroup>
   <ItemGroup>

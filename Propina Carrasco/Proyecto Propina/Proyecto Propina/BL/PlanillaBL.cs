@@ -28,11 +28,6 @@ namespace BL
             return planillaDAL.obtenerTodos();
         }
 
-        public void altaPlanilla(object planilla)
-        {
-            throw new NotImplementedException();
-        }
-
         public Planilla obtener(int id)
         {
             return planillaDAL.obtener(id);
@@ -51,6 +46,15 @@ namespace BL
         public void quitarFirmarPlanilla(int id, int idEmpleado)
         {
             planillaDAL.quitarFirmarPlanilla(id, idEmpleado);
+        }
+
+        public void habilitarPlanilla(int id)
+        {
+            planillaDAL.habilitarPlanilla(id);
+        }
+        public void deshabilitarPlanilla(int id)
+        {
+            planillaDAL.deshabilitarPlanilla(id);
         }
     }
 }

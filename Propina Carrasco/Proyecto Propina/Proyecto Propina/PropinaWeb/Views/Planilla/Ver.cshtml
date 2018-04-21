@@ -19,13 +19,13 @@
             }
         </div>
 
-        @if (!Model.Firma && Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO"))
+        @if (!Model.Firma && Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar)
         {
             <button type="button" class="btn btn-success" OnClick="location.href = '../FirmarPlanilla/@Model.planilla.Id'">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Firmar Planilla
             </button>
         }
-        else if(Model.Firma && Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Convert.ToInt32(Session["IdUsuario"])!=Model.planilla.empleado.Id)
+        else if(Model.Firma && Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar)
         {
             <button type="button" class="btn btn-warning" OnClick="location.href = '../QuitarFirmarPlanilla/@Model.planilla.Id'">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Quitar Firmar Planilla

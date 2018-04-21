@@ -45,10 +45,10 @@
                             {
                                 if (c.Habilitada)
                                 {
-                                    <a title="Finalizar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/Finalizar/@c.Id">Finalizar</a>
+                                    <a title="Finalizar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/DeshabilitarPlanilla/@c.Id">Finalizar</a>
                                 }
                                 else {
-                                    <a title="Habilitar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/Habilitar/@c.Id">Hablitar</a>
+                                    <a title="Habilitar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/HabilitarPlanilla/@c.Id">Hablitar</a>
                                 }
                                 <a title="Inhabilitar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Planilla/Eliminar/@c.Id">Eliminar</a>
                             }

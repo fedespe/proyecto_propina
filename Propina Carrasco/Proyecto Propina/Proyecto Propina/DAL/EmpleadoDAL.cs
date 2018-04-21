@@ -59,7 +59,7 @@ namespace DAL
         public Empleado obtener(int id)
         {
             Empleado emp = null;
-            string cadenaSelectUsuario = "SELECT * FROM Usuario WHERE Id=@id AND Tipo='EMPLEADO'";
+            string cadenaSelectUsuario = "SELECT u.*, c.Nombre as NombreCargo FROM Usuario u, Cargo c, Empleado e WHERE u.Id=e.EmpleadoId AND e.CargoId=c.Id AND u.Id=@id AND Tipo='EMPLEADO'";
             try
             {
                 using (SqlConnection con = new SqlConnection(Utilidades.conn))
@@ -84,7 +84,8 @@ namespace DAL
                                     CorreoElectronico = dr["Email"].ToString(),
                                     Telefono = dr["Telefono"].ToString(),
                                     Direccion = dr["Direccion"].ToString(),
-                                    Tipo = dr["Tipo"].ToString()
+                                    Tipo = dr["Tipo"].ToString(),
+                                    Cargo= new Cargo { Nombre= dr["NombreCargo"].ToString() }
                                 };
                             }
                         }

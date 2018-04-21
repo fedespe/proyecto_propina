@@ -14,6 +14,7 @@ namespace PropinaWeb.ViewModel.PlanillaViewModel
         [Display(Name = "Texto")]
         public string Texto { get; set; }
         public bool Firma { get; set; }
+        public bool PuedeFirmar { get; set; }
         public Empleado Empleado { get; set; }
 
 
@@ -39,8 +40,13 @@ namespace PropinaWeb.ViewModel.PlanillaViewModel
         internal void comprobarFirmas()
         {
             Firma = planilla.Empleados.Contains(Empleado);
-            if (planilla.empleado.Id == Empleado.Id) {
-                Firma = true;
+            if (planilla.empleado.Id != Empleado.Id && (Empleado.Cargo.Nombre.Equals("CROUPIER") || Empleado.Cargo.Nombre.Equals("SUPERVIDOR_MESAS") 
+                || Empleado.Cargo.Nombre.Equals("CAJERO") || Empleado.Cargo.Nombre.Equals("SUPERVISOR_CAJAS")))
+            {
+                PuedeFirmar = true;
+            }
+            else {
+                PuedeFirmar = false;
             }
         }
     }

@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlanillaController.cs" />
+    <Compile Include="Controllers\RepartoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,6 +183,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\CuentaViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PlanillaViewModel\AltaPlanillaViewModel.cs" />
+    <Compile Include="ViewModel\RepartoViewModel\EditarRepartoDiarioViewModel.cs" />
+    <Compile Include="ViewModel\RepartoViewModel\EditarRepartoViewModel.cs" />
+    <Compile Include="ViewModel\RepartoViewModel\MostrarDatosViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -243,6 +247,11 @@
     <Content Include="Views\Planilla\AltaPlanilla.cshtml" />
     <Content Include="Views\Shared\_Mensajes.cshtml" />
     <Content Include="Views\Planilla\Ver.cshtml" />
+    <Content Include="Views\Reparto\MostrarDatos.cshtml" />
+    <Content Include="Views\Reparto\EditarReparto.cshtml" />
+    <Content Include="Views\Reparto\EditarRepartoDiario.cshtml" />
+    <Content Include="Views\Reparto\AltaReparto.cshtml" />
+    <Content Include="Views\Reparto\AltaRepartoDiario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

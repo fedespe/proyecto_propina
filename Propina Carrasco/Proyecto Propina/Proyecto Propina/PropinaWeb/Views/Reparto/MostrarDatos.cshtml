@@ -1,0 +1,23 @@
+﻿@model PropinaWeb.ViewModel.RepartoViewModel.MostrarDatosViewModel
+@{
+    ViewBag.Title = "MostrarDatos";
+}
+
+<h2>MostrarDatos</h2>
+
+@foreach (var c in Model.Repartos) {
+    <div>
+        @c.Id; @c.MontoTotalPesos; @c.MontoTotalDolares; @c.Fecha.ToString("dd-MM-yyyy"); @c.Activo 
+        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+        {
+            <a title="Editar" href="~/Reparto/EditarReparto/@c.Id">Editar</a>
+        }
+    </div>
+}
+<button type="button" class="btn btn-success" OnClick="location.href = 'AltaReparto'">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Reparto
+</button>
+
+
+
+
