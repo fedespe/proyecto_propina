@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdministradorDAL.cs" />
+    <Compile Include="CargoDAL.cs" />
     <Compile Include="EmpleadoDAL.cs" />
     <Compile Include="PlanillaDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -30,5 +30,15 @@ namespace BL
         {
             repartoDAL.altaReparto(reparto);
         }
+
+        public void desactivarReparto(int id)
+        {
+            repartoDAL.desactivarReparto(id);
+        }
+
+        public void activarReparto(int id)
+        {
+            repartoDAL.activarReparto(id);
+        }
     }
 }

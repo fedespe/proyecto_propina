@@ -3,21 +3,119 @@
     ViewBag.Title = "MostrarDatos";
 }
 
-<h2>MostrarDatos</h2>
+<h2>Repartos</h2>
 
-@foreach (var c in Model.Repartos) {
-    <div>
-        @c.Id; @c.MontoTotalPesos; @c.MontoTotalDolares; @c.Fecha.ToString("dd-MM-yyyy"); @c.Activo 
-        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Pesos</th>
+            <th>Dolares</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in Model.Repartos)
         {
-            <a title="Editar" href="~/Reparto/EditarReparto/@c.Id">Editar</a>
+            <tr>
+                <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
+                <td>$ @c.MontoTotalPesos</td>
+                <td>u$s @c.MontoTotalDolares</td>
+                @if (c.Activo)
+                {
+                    <td style="color:limegreen;">Activo</td>
+                }
+                else {
+                    <td style="color:red;">Finalizado</td>
+                }
+                <td>
+                    @if (c.Activo)
+                    {
+                    <a title="Desactivar" onclick="return confirm('¿Esta seguro?');" href="~/Reparto/DesactivarReparto/@c.Id">Desactivar</a>
+                    }
+                    else {
+                    <a title="Activar" onclick="return confirm('¿Esta seguro?');" href="~/Reparto/ActivarReparto/@c.Id">Activar</a>
+                    }                   
+                    <a title="Editar" href="~/Reparto/EditarReparto/@c.Id">Editar</a>
+                </td>
+            </tr>
         }
-    </div>
-}
+    </tbody>
+</table>
+
 <button type="button" class="btn btn-success" OnClick="location.href = 'AltaReparto'">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Reparto
 </button>
+<h2>Reparto Actual</h2>
+@if (Model.RepartoActivo != null)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Total Pesos</th>
+                <th>Total Dolares</th>
+            </tr>
+        </thead>
 
+        <tbody>
+            <tr>
+                <td>$ @Model.MontoTotalPesos</td>
+                <td>u$s @Model.MontoTotalDolares</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Pesos Mesas</th>
+                <th>Dolares Mesas</th>
+                <th>Pesos Otras Áreas</th>
+                <th>Dolares Otras Áreas</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var c in Model.RepartoActivo.RepartosDiarios)
+            {
+                <tr>
+                    <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
+                    <td>$ @c.MontoPesosMesas</td>
+                    <td>u$s @c.MontoDolaresMesas</td>
+                    <td>$ @c.MontoPesosOtros</td>
+                    <td>u$s @c.MontoDolaresOtros</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h2>Aproximados</h2>
+@if (Model.Cargos != null)
+{   
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cargo</th>
+                <th>Pesos</th>
+                <th>Dolares</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var c in Model.Cargos)
+            {
+                <tr>
+                    <td>@c.Nombre</td>
+                    <td>$ @Math.Round(c.AproximadoPesos)</td>
+                    <td>u$s @Math.Round(c.AproximadoDolares)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 
 

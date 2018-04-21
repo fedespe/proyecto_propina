@@ -288,6 +288,82 @@ namespace PropinaWeb.Controllers
             }
         }
 
+        //GET: Reparto/ActivarReparto
+        public ActionResult ActivarReparto(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        repartoBL.activarReparto(id);
+                        return RedirectToAction("MostrarDatos");
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+
+        //GET: Reparto/DesactivarReparto
+        public ActionResult DesactivarReparto(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        repartoBL.desactivarReparto(id);
+                        return RedirectToAction("MostrarDatos");
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+
 
     }
 }

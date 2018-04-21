@@ -48,6 +48,44 @@ namespace DAL
             return repartos;
         }
 
+        public void desactivarReparto(int id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("Update Reparto SET Activo = 0 WHERE id = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+        }
+
+        public void activarReparto(int id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("Update Reparto SET Activo = 1 WHERE id = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+        }
+
         public void altaReparto(Reparto reparto)
         {
             string cadenaInsert = @"INSERT INTO Reparto VALUES(@montoPesos, @montoDolares, @fecha, @activo);";
