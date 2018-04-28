@@ -31,23 +31,29 @@
                     <td style="color:red;">Finalizado</td>
                 }
                 <td>
-                    @if (c.Activo)
+                    @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
                     {
-                    <a title="Desactivar" onclick="return confirm('¿Esta seguro?');" href="~/Reparto/DesactivarReparto/@c.Id">Desactivar</a>
+                        if (c.Activo)
+                        {
+                        <a title="Desactivar" onclick="return confirm('¿Esta seguro?');" href="~/Reparto/DesactivarReparto/@c.Id">Desactivar</a>
+                        }
+                        else {
+                        <a title="Activar" onclick="return confirm('¿Esta seguro?');" href="~/Reparto/ActivarReparto/@c.Id">Activar</a>
+                        }                   
+                        <a title="Editar" href="~/Reparto/EditarReparto/@c.Id">Editar</a>
                     }
-                    else {
-                    <a title="Activar" onclick="return confirm('¿Esta seguro?');" href="~/Reparto/ActivarReparto/@c.Id">Activar</a>
-                    }                   
-                    <a title="Editar" href="~/Reparto/EditarReparto/@c.Id">Editar</a>
+                    <a title="Editar" href="~/Reparto/VerReparto/@c.Id">Ver (Falta)</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<button type="button" class="btn btn-success" OnClick="location.href = 'AltaReparto'">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Reparto
-</button>
+@if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+{
+    <button type="button" class="btn btn-success" OnClick="location.href = 'AltaReparto'">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Reparto
+    </button>
+}
 <h2>Reparto Actual</h2>
 @if (Model.RepartoActivo != null)
 {

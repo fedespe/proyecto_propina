@@ -10,6 +10,7 @@ namespace ET
     {
         public int NumeroEmpleado { get; set; }
         public Cargo Cargo { get; set; }
+        public string Datos { get; set; }
 
         public override bool Equals(object obj)
         {

@@ -56,6 +56,43 @@ namespace DAL
         
         }
 
+        public List<Empleado> obtenerTodos()
+        {
+            List<Empleado> empleados = new List<Empleado>();
+            string cadenaSelect = "SELECT u.*,e.* FROM Usuario u, Empleado e WHERE u.Id=e.EmpleadoId;";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    con.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(cadenaSelect, con))
+                    {
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                Empleado empleado = new Empleado
+                                {
+                                    Id = Convert.ToInt32(dr["Id"]),
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Apellido = dr["Apellido"].ToString(),
+                                    NumeroEmpleado = Convert.ToInt32(dr["NumeroEmpleado"])
+                                };
+                                empleados.Add(empleado);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+
+            return empleados;
+        }
+
         public Empleado obtener(int id)
         {
             Empleado emp = null;

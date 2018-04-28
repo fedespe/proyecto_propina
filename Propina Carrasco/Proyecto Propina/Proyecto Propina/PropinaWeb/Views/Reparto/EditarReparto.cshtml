@@ -3,11 +3,8 @@
     ViewBag.Title = "EditarReparto";
 }
 
-<h2>EditarReparto</h2>
-
-
 <div class="row">
-    <div class="col-md-10 pull-right">
+    <div class="col-xs-12">
         <h2>Editar Reparto</h2>
 
         @using (Html.BeginForm("EditarReparto", "Reparto", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -31,21 +28,43 @@
                 @Html.TextBoxFor(x => x.Reparto.MontoTotalDolares, new { @id = "MontoTotalDolares", @class = "form-control", @placeholder = "MontoTotalDolares" })
                 @Html.ValidationMessageFor(x => x.Reparto.MontoTotalDolares, "", new { @class = "text-danger" })
             </div>
-
-            <input type="date" id="Fecha" name="Fecha" value="@Model.Fecha.ToString("yyyy-MM-dd")"/>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Reparto.Fecha, htmlAttributes: new { @class = "control-label" })
+                <input class="form-control" type="date" id="Fecha" name="Fecha" value="@Model.Reparto.Fecha.ToString("dd-MM-yyyy")"/>
+            </div>
 
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Actualizar
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Actualizar Reparto
             </button>
 
-            <div>FALTA SELECCIONAR FECHA Y ACTIVAR Y DESACTIVAR... MOSTRAR LA DIARIA TAMBIEN</div>
-            foreach (var c in Model.Reparto.RepartosDiarios)
-            {
-                <div>
-                    @c.Id; @c.MontoPesosMesas; @c.MontoDolaresMesas; @c.MontoPesosOtros; @c.MontoDolaresOtros; @c.Fecha
-                    <a title="Editar" href="~/Reparto/EditarRepartoDiario/@c.Id">Editar</a>
-                </div>
-            }
+            <h2>Ingreso Diario</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Pesos Mesas</th>
+                        <th>Dolares Mesas</th>
+                        <th>Pesos Otras Áreas</th>
+                        <th>Dolares Otras Áreas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var c in Model.Reparto.RepartosDiarios)
+                    {
+                        <tr>
+                            <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
+                            <td>$ @c.MontoPesosMesas</td>
+                            <td>u$s @c.MontoDolaresMesas</td>
+                            <td>$ @c.MontoPesosOtros</td>
+                            <td>u$s @c.MontoDolaresOtros</td>
+                            <td><a title="Editar" href="~/Reparto/EditarRepartoDiario/@c.Id">Editar</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
             <button type="button" class="btn btn-success" OnClick="location.href = '../AltaRepartoDiario/@Model.Reparto.Id'">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Monto Diario
             </button>

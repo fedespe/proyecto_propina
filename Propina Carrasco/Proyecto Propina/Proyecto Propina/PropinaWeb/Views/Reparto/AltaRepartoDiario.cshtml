@@ -5,8 +5,8 @@
 }
 
 <div class="row">
-    <div class="col-md-10 pull-right">
-        <h2>AltaRepartoDiario</h2>
+    <div class="col-xs-12">
+        <h2>Ingreso Monto Diario</h2>
         @using (Html.BeginForm("AltaRepartoDiario", "Reparto", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             //Seguridad
@@ -37,9 +37,10 @@
                 @Html.TextBoxFor(x => x.MontoDolaresOtros, new { @id = "MontoDolaresOtros", @class = "form-control", @placeholder = "MontoDolaresOtros" })
                 @Html.ValidationMessageFor(x => x.MontoDolaresOtros, "", new { @class = "text-danger" })
             </div>
-
-
-            <div>FALTA SELECCIONAR FECHA...</div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Fecha, htmlAttributes: new { @class = "control-label" })
+                <input class="form-control" type="date" id="Fecha" name="Fecha" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+            </div>
 
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar

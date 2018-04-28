@@ -57,7 +57,7 @@ namespace PropinaWeb.Controllers
                     {
                         EditarRepartoViewModel editVM = new EditarRepartoViewModel();
                         editVM.Reparto = repartoBL.obtener(id);
-                        editVM.Reparto.RepartosDiarios.OrderBy(p => p.Fecha).ToList();
+                        editVM.Reparto.RepartosDiarios=editVM.Reparto.RepartosDiarios.OrderByDescending(p => p.Fecha).ToList();
                         editVM.Fecha = editVM.Reparto.Fecha;
                         return View(editVM);
                     }
@@ -159,6 +159,7 @@ namespace PropinaWeb.Controllers
             {
                 try
                 {
+                    editVM.completarReparto();
                     repartoDiarioBL.actualizarRepartoDiario(editVM.RepartoDiario);
 
                     return RedirectToAction("EditarReparto","Reparto",new { id = editVM.RepartoDiario.Reparto.Id});//enviar a editar reparto con idreparto

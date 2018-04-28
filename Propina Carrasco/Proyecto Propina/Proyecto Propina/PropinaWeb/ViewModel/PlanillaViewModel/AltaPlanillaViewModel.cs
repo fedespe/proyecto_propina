@@ -1,14 +1,17 @@
-﻿using ET;
+﻿using BL;
+using ET;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PropinaWeb.ViewModel.PlanillaViewModel
 {
     public class AltaPlanillaViewModel
     {
+        private EmpleadoBL empleadoBL = new EmpleadoBL();
         public Planilla planilla { get; set; }
         [Required]
         [Display(Name = "Texto")]
@@ -16,10 +19,16 @@ namespace PropinaWeb.ViewModel.PlanillaViewModel
         public bool Firma { get; set; }
         public bool PuedeFirmar { get; set; }
         public Empleado Empleado { get; set; }
+        public List<Empleado> Empleados { get; set; }
+        public int IdSeleccionado { get; set; }
+        public SelectList ListaEmpleados { get; set; }
 
 
         public AltaPlanillaViewModel() {
             planilla = new Planilla();
+            List<Empleado> empleados = empleadoBL.obtenerTodos();
+            foreach (Empleado e in empleados) { e.Datos = "Nº: " + e.NumeroEmpleado + " " + e.Nombre + ", " + e.Apellido; }
+            ListaEmpleados = new SelectList(empleados,"Id","Datos");
         }
 
         internal void completarAltaPlanillaVM()
@@ -32,7 +41,7 @@ namespace PropinaWeb.ViewModel.PlanillaViewModel
         {
             planilla.Texto = Texto;
             planilla.empleado = new Empleado();
-            planilla.empleado.Id = 3;
+            planilla.empleado.Id = IdSeleccionado;
             planilla.Habilitada = true;
             planilla.Eliminado = false;
         }

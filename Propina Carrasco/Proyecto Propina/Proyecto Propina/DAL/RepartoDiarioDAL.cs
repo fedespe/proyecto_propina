@@ -61,7 +61,7 @@ namespace DAL
                     using (SqlCommand cmd = new SqlCommand(cadenaInsert, con))
                     {
                         cmd.Parameters.AddWithValue("@idReparto", repartoDiario.Reparto.Id);
-                        cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@fecha", repartoDiario.Fecha);
                         cmd.Parameters.AddWithValue("@montoPesosMesas", repartoDiario.MontoPesosMesas);
                         cmd.Parameters.AddWithValue("@montoDolaresMesas", repartoDiario.MontoDolaresMesas);
                         cmd.Parameters.AddWithValue("@montoPesosOtros", repartoDiario.MontoPesosOtros);
@@ -93,7 +93,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@dolaresMesas", repartoDiario.MontoDolaresMesas);
                     cmd.Parameters.AddWithValue("@pesosOtros", repartoDiario.MontoPesosOtros);
                     cmd.Parameters.AddWithValue("@dolaresOtros", repartoDiario.MontoDolaresOtros);
-                    cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@fecha", repartoDiario.Fecha);
                     cmd.ExecuteNonQuery();
                 }
             }

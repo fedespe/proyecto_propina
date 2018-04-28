@@ -19,7 +19,7 @@ namespace PropinaWeb.Controllers
             {
                 try
                 {
-                    return View(planillaBL.obtenerTodos());
+                    return View(planillaBL.obtenerTodos().OrderByDescending(p => p.Fecha).ToList());
                 }
                 catch (ProyectoException ex)
                 {
@@ -147,7 +147,7 @@ namespace PropinaWeb.Controllers
                     {
                         planillaBL.firmarPlanilla(id, Convert.ToInt32(Session["IdUsuario"]));
                         ViewBag.Mensaje = "Firma realizada con éxito";
-                        return View("~/Views/Shared/_Mensajes.cshtml");
+                        return RedirectToAction("Ver", "Planilla", new { id = id });
                     }
                     else {
                         ViewBag.Mensaje = "No selecciono el usuario correctamente.";
@@ -185,7 +185,7 @@ namespace PropinaWeb.Controllers
                     {
                         planillaBL.quitarFirmarPlanilla(id, Convert.ToInt32(Session["IdUsuario"]));
                         ViewBag.Mensaje = "Se quitó la firma con éxito";
-                        return View("~/Views/Shared/_Mensajes.cshtml");
+                        return RedirectToAction("Ver", "Planilla", new { id = id });
                     }
                     else {
                         ViewBag.Mensaje = "No selecciono el usuario correctamente.";

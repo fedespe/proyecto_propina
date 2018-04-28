@@ -5,7 +5,8 @@
 }
 
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
         <h2>Iniciar Sesión</h2>
         @using (Html.BeginForm("Login", "Cuenta", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -29,5 +30,6 @@
             <button type="submit" class="btn btn-primary">Ingresar</button>
         }
     </div>
+    <div class="col-sm-4"></div>
 </div>
 

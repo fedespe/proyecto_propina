@@ -97,7 +97,7 @@ namespace DAL
                     {
                         cmd.Parameters.AddWithValue("@montoPesos", reparto.MontoTotalPesos);
                         cmd.Parameters.AddWithValue("@montoDolares", reparto.MontoTotalDolares);
-                        cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@fecha", reparto.Fecha);
                         cmd.Parameters.AddWithValue("@activo", false);
 
                         con.Open();
@@ -124,7 +124,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@id", reparto.Id);
                     cmd.Parameters.AddWithValue("@pesos", reparto.MontoTotalPesos);
                     cmd.Parameters.AddWithValue("@dolares", reparto.MontoTotalDolares);
-                    cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@fecha", reparto.Fecha);
                     cmd.ExecuteNonQuery();
                 }
             }

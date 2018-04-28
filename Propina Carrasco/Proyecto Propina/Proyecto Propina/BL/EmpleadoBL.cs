@@ -20,5 +20,10 @@ namespace BL
         {
             return empleadoDAL.obtener(id);
         }
+
+        public List<Empleado> obtenerTodos()
+        {
+            return empleadoDAL.obtenerTodos();
+        }
     }
 }

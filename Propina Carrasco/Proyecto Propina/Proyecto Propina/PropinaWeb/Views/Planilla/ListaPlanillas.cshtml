@@ -5,7 +5,8 @@
 
 <div class="row">
     @*@Html.Partial("_MenuPartial")*@
-    <div class="col-md-10">
+    <div class="col-xs-12">
+        <h2>Planillas</h2>
         @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
         {
             <h2>
@@ -20,7 +21,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Tipo</th>
+                    <th>Fecha</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -31,13 +32,13 @@
                 {
                     <tr>
                         <td>@c.empleado.Nombre, @c.empleado.Apellido</td>
-                        <td>Planilla</td>
+                        <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
                         @if (c.Habilitada)
                         {
-                            <td>Nueva</td>
+                            <td style="color:limegreen;">Nueva</td>
                         }
                         else {
-                            <td>Finalizada</td>
+                            <td style="color:red;">Finalizada</td>
                         }
                         <td>
                             <a title="Ver" href="~/Planilla/Ver/@c.Id">Ver</a>
@@ -50,7 +51,7 @@
                                 else {
                                     <a title="Habilitar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/HabilitarPlanilla/@c.Id">Hablitar</a>
                                 }
-                                <a title="Inhabilitar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Planilla/Eliminar/@c.Id">Eliminar</a>
+                                <a title="Inhabilitar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Planilla/Eliminar/@c.Id">Eliminar (Falta)</a>
                             }
                         </td>
                     </tr>

@@ -26,6 +26,7 @@ namespace PropinaWeb.ViewModel.RepartoViewModel
             if (Repartos.Where(p => p.Activo).FirstOrDefault() != null) {
                 int idAct = Repartos.Where(p => p.Activo).FirstOrDefault().Id;
                 RepartoActivo = repartoBL.obtener(idAct);
+                RepartoActivo.RepartosDiarios=RepartoActivo.RepartosDiarios.OrderByDescending(p => p.Fecha).ToList();
                 foreach (RepartoDiario d in RepartoActivo.RepartosDiarios) {
                     MontoTotalPesos += d.MontoPesosMesas + d.MontoPesosOtros;
                     MontoTotalDolares += d.MontoDolaresMesas + d.MontoDolaresOtros;

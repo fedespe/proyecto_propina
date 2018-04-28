@@ -5,7 +5,7 @@
 }
 
 <div class="row">
-    <div class="col-md-10 pull-right">
+    <div class="col-xs-12">
         <h2>Nueva Planilla</h2>
         @using (Html.BeginForm("AltaPlanilla", "Planilla", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -19,14 +19,20 @@
 
             <div class="form-group">
                 @Html.LabelFor(x => x.Texto, htmlAttributes: new { @class = "control-label" })
-                @Html.TextBoxFor(x => x.Texto, new { @id = "pregunta", @class = "form-control", @placeholder = "Texto" })
+                @*@Html.TextBoxFor(x => x.Texto, new { @id = "pregunta", @class = "form-control", @placeholder = "Texto" })*@
+                @Html.TextArea("Texto", null, new { @class = "form-control", @placeholder = "Ingrese el texto correspondiente...",@rows="8", @cols = "60" })
                 @Html.ValidationMessageFor(x => x.Texto, "", new { @class = "text-danger" })
             </div>
 
-            <div>FALTA SELECCIONAR EMPLEADO</div>
+            <div>
+                <label class="control-label">Seleccione un empleado</label>
+                @Html.DropDownListFor(model=>model.IdSeleccionado,Model.ListaEmpleados, new { @class = "form-control" })
+            </div>
+
+            <br>
 
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar Planilla
             </button>
         }
     </div>

@@ -20,6 +20,7 @@ CREATE TABLE dbo.CARGO
 	Id	INT  NOT NULL IDENTITY(1,1),
 	Nombre NVARCHAR(30) NOT NULL,	
 	Puntaje NUMERIC(4,2) NOT NULL,
+	
 
 	CONSTRAINT PK_CARGO PRIMARY KEY(Id),
 );
@@ -135,16 +136,21 @@ INSERT INTO dbo.USUARIO VALUES
 /*1 - Admin*/('Admin1', 'Admin1', 'Admin1','123456789', 1, 'ADMINISTRADOR', 'Admin1@mailinator.com', '099999999', 'Admin dir'),
 /*2 - Admin*/('Admin2', 'Admin2', 'Admin2','123456789', 1, 'ADMINISTRADOR', 'Admin2@mailinator.com', '099999999', 'Admin dir'),
 
-/*3 - Empleado*/('Empleado1', 'Empleado1', 'Empleado1','123456789', 1, 'EMPLEADO', 'Empleado1@mailinator.com', '099999999', 'Empleado1 dir'),
-/*4 - Empleado*/('Empleado2', 'Empleado2', 'Empleado2','123456789', 1, 'EMPLEADO', 'Empleado2@mailinator.com', '099999999', 'Empleado2 dir');
+/*3 - Empleado*/('N_Empleado1', 'A_Empleado1', 'Empleado1','123456789', 1, 'EMPLEADO', 'Empleado1@mailinator.com', '099999999', 'Empleado1 dir'),
+/*4 - Empleado*/('N_Empleado2', 'A_Empleado2', 'Empleado2','123456789', 1, 'EMPLEADO', 'Empleado2@mailinator.com', '099999999', 'Empleado2 dir'),
+/*4 - Empleado*/('N_Empleado3', 'A_Empleado3', 'Empleado3','123456789', 1, 'EMPLEADO', 'Empleado3@mailinator.com', '099999999', 'Empleado3 dir'),
+/*5 - Empleado*/('N_Empleado4', 'A_Empleado4', 'Empleado4','123456789', 1, 'EMPLEADO', 'Empleado4@mailinator.com', '099999999', 'Empleado4 dir');
+
 
 INSERT INTO dbo.ADMINISTRADOR VALUES
 (1),
 (2);
 
 INSERT INTO dbo.EMPLEADO Values
-(3,100,1),
-(4,101,5);
+(3,101,1),
+(4,102,2),
+(5,103,3),
+(6,104,4);
 
 INSERT INTO dbo.PLANILLA Values
 ('Texto 1',getdate(),3,1,0),
@@ -174,6 +180,8 @@ SELECT * FROM PLANILLA;
 SELECT * FROM PLANILLAEMPLEADO;
 SELECT * FROM REPARTO;
 SELECT * FROM REPARTODIARIO;
+SELECT * FROM CARGO;
+
 
 
 

@@ -5,32 +5,63 @@
 
 
 <div class="row">
-    <div class="col-md-10">   
-        <h2>Planilla</h2>  
-        <h3>@Model.planilla.empleado.Nombre, @Model.planilla.empleado.Apellido</h3>
-        <div>
+    <div class="col-xs-12">   
+        <h2>Información Planilla</h2>
+        <h3>Planilla para el empleado: @Model.planilla.empleado.Nombre, @Model.planilla.empleado.Apellido</h3>  
+        <div class="form-control alert-info">
             @Model.planilla.Texto
         </div>
         <div>
-            <h3>Firmas</h3>
-            @foreach (var e in Model.planilla.Empleados)
-            {
-                <div>@e.Nombre, @e.Apellido</div>
-            }
+            <h3>Lista de empleados que FIRMARON la planilla:</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Firma</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var c in Model.planilla.Empleados)
+                    {
+                        if (Session["IdUsuario"] != null && Convert.ToInt32(Session["IdUsuario"])==c.Id)
+                        {
+                            <tr class="alert-success">
+                                <td><b>@c.Nombre</b></td>
+                                <td><b>@c.Apellido</b></td>
+                                <td><b>Si</b></td>
+                            </tr>
+                        }
+                        else {
+                            <tr>
+                                <td>@c.Nombre</td>
+                                <td>@c.Apellido</td>
+                                <td>Si</td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
         </div>
 
-        @if (!Model.Firma && Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar)
+        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar)
         {
-            <button type="button" class="btn btn-success" OnClick="location.href = '../FirmarPlanilla/@Model.planilla.Id'">
+            if (!Model.Firma )
+            {
+                <button type="button" class="btn btn-success" OnClick="location.href = '../FirmarPlanilla/@Model.planilla.Id'">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Firmar Planilla
-            </button>
+                </button>
+            }
+            else 
+            {
+                <button type="button" class="btn btn-warning" OnClick="location.href = '../QuitarFirmarPlanilla/@Model.planilla.Id'">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Quitar Firmar Planilla
+                </button>
+            }
         }
-        else if(Model.Firma && Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar)
-        {
-            <button type="button" class="btn btn-warning" OnClick="location.href = '../QuitarFirmarPlanilla/@Model.planilla.Id'">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Quitar Firmar Planilla
-            </button>
-        }
+        
 
         
     </div>
