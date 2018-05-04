@@ -21,8 +21,8 @@
         {
             <tr>
                 <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
-                <td>$ @c.MontoTotalPesos</td>
-                <td>u$s @c.MontoTotalDolares</td>
+                <td>@c.MontoTotalPesos</td>
+                <td>@c.MontoTotalDolares</td>
                 @if (c.Activo)
                 {
                     <td style="color:limegreen;">Activo</td>
@@ -42,7 +42,7 @@
                         }                   
                         <a title="Editar" href="~/Reparto/EditarReparto/@c.Id">Editar</a>
                     }
-                    <a title="Editar" href="~/Reparto/VerReparto/@c.Id">Ver (Falta)</a>
+                    <a title="Editar" href="~/Reparto/VerReparto/@c.Id">Ver</a>
                 </td>
             </tr>
         }
@@ -67,8 +67,8 @@
 
         <tbody>
             <tr>
-                <td>$ @Model.MontoTotalPesos</td>
-                <td>u$s @Model.MontoTotalDolares</td>
+                <td>@Model.MontoTotalPesos</td>
+                <td>@Model.MontoTotalDolares</td>
             </tr>
         </tbody>
     </table>
@@ -88,10 +88,10 @@
             {
                 <tr>
                     <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
-                    <td>$ @c.MontoPesosMesas</td>
-                    <td>u$s @c.MontoDolaresMesas</td>
-                    <td>$ @c.MontoPesosOtros</td>
-                    <td>u$s @c.MontoDolaresOtros</td>
+                    <td>@c.MontoPesosMesas</td>
+                    <td>@c.MontoDolaresMesas</td>
+                    <td>@c.MontoPesosOtros</td>
+                    <td>@c.MontoDolaresOtros</td>
                 </tr>
             }
         </tbody>
@@ -115,8 +115,8 @@
             {
                 <tr>
                     <td>@c.Nombre</td>
-                    <td>$ @Math.Round(c.AproximadoPesos)</td>
-                    <td>u$s @Math.Round(c.AproximadoDolares)</td>
+                    <td>@Math.Round(c.AproximadoPesos)</td>
+                    <td>@Math.Round(c.AproximadoDolares)</td>
                 </tr>
             }
         </tbody>

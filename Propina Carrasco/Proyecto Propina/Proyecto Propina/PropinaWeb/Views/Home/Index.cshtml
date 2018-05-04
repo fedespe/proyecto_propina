@@ -1,7 +1,161 @@
-﻿@{
+﻿@*@model PropinaWeb.ViewModel.HomeViewModel.HomeViewModel
+@{
     ViewBag.Title = "Home Page";
 }
+<link href="~/Content/Index.css" rel="stylesheet" />
+<div class="bgimg-1">
+    <div class="caption">
+        <div>
+            <span class="border">PROPINA CC</span>
+        </div>
+    </div>
+</div>
 
 <div class="jumbotron" style="text-align:center">
     <h1>PROPINA CARRASCO</h1>
+    <p>Revisar controles de ingres... controles en mensajes no andan. Ver si agrego que se pueda seleccionar las fechas en planillas y colctas. Ojo los montos a ingresar en las colectas y en el resto que sean positivos.</p>
 </div>
+
+@if (Session["TipoUsuario"] != null && Model.Mensajes != null)
+{
+    foreach (var c in Model.Mensajes)
+    {
+        <div class="jumbotron" style="text-align:center">
+            <h2 style="text-align:center">@c.Titulo </h2>
+            <p>@c.Texto</p>
+            <p><small>@c.Fecha.ToString("dd-MM-yyyy")</small></p>
+            @if (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+            {
+                <a title="Eliminar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Home/EliminarMensaje/@c.Id">Eliminar</a>
+            }
+        </div>
+    }
+    
+}
+@if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+{
+    <button type="button" class="btn btn-success" OnClick="location.href = 'Home/AltaMensaje'">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Mensaje
+    </button>
+}*@
+
+@model PropinaWeb.ViewModel.HomeViewModel.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Index.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="bgimg-1">
+        <div class="caption">
+            <div>
+                <span class="border">PROPINA CC</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="position:relative;">
+        <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;">
+            <h3 style="text-align:center;padding:0px;margin:0px;padding-bottom:15px;color:white">PROPINA CARRASCO</h3>
+            <p>Revisar controles de ingres... controles en mensajes no andan. Ver si agrego que se pueda seleccionar las fechas en planillas y colctas.
+            Ojo los montos a ingresar en las colectas y en el resto que sean positivos.</p>
+        </div>
+    </div>
+
+    @*<div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
+        <h3 style="text-align:center;">PROPINA CARRASCO</h3>
+        <p>
+            Revisar controles de ingres... controles en mensajes no andan. Ver si agrego que se pueda seleccionar las fechas en planillas y colctas. 
+            Ojo los montos a ingresar en las colectas y en el resto que sean positivos.
+        </p>
+    </div>*@
+
+    <div class="container body-content">
+        
+        @if (Session["TipoUsuario"] != null && Model.Mensajes != null)
+        {
+            <div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
+                <h3 style="text-align:center;">COMUNICADOS</h3>
+                @*<p>
+                    Texto informando mensajes
+                </p>*@
+            </div>
+            foreach (var c in Model.Mensajes)
+            {
+                <div style="position:relative;margin:20px;">
+                    <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;border-radius:20px">
+                        <h3 style="text-align:center;padding:0px;margin:0px;padding-bottom:15px;color:white;text-transform:uppercase">@c.Titulo</h3>
+                        <p>
+                            @c.Texto
+                        </p>
+                        <p>
+                            <small>@c.Fecha.ToString("dd-MM-yyyy")</small>
+                        </p>
+                        @if (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+                        {
+                            <a title="Eliminar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Home/EliminarMensaje/@c.Id">Eliminar</a>
+                        }
+                    </div>
+                </div>
+                @*<div class="jumbotron" style="text-align:center;">
+                    <h3 style="text-align:center;text-transform:uppercase">@c.Titulo </h3>
+                    <p>@c.Texto</p>
+                    <p><small>@c.Fecha.ToString("dd-MM-yyyy")</small></p>
+                    @if (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+                    {
+                        <a title="Eliminar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Home/EliminarMensaje/@c.Id">Eliminar</a>
+                    }
+                </div>*@
+            }
+
+        }     
+        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
+        {
+        <button type="button" class="btn btn-success" OnClick="location.href = 'Home/AltaMensaje'">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Mensaje
+        </button>
+        }  
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Comisión de propinas</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
+
+

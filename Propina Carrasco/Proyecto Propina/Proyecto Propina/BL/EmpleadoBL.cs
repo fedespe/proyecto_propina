@@ -25,5 +25,10 @@ namespace BL
         {
             return empleadoDAL.obtenerTodos();
         }
+
+        public int obtenerCantidadEmpleados88()
+        {
+            return empleadoDAL.obtenerCantidadEmpleados88();
+        }
     }
 }

@@ -26,6 +26,7 @@ else
         {
             <li>@Html.ActionLink("Repartos", "MostrarDatos", "Reparto")</li>
             <li>@Html.ActionLink("Planillas", "ListaPlanillas", "Planilla")</li>
+            <li>@Html.ActionLink("Colectas", "ListaColecta", "Colecta")</li>
             <li>@Html.ActionLink("Cerrar sesión", "Logoff", "Cuenta", routeValues: null, htmlAttributes: new { id = "logoffLink" })</li>
         }
         @if (Session["TipoUsuario"] == null)

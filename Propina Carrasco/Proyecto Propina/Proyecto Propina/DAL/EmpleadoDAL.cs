@@ -56,6 +56,35 @@ namespace DAL
         
         }
 
+        public int obtenerCantidadEmpleados88()
+        {
+            try
+            {
+                string obtenerCantidadEmpleados = @"SELECT COUNT(*) FROM EMPLEADO e, CARGO c WHERE e.CargoId=c.Id AND (c.Nombre='CROUPIER' 
+                                                    OR c.Nombre = 'SUPERVIDOR_MESAS' OR c.Nombre = 'CAJERO' OR c.Nombre = 'SUPERVISOR_CAJAS'); ";
+
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    using (SqlCommand cmd = new SqlCommand(obtenerCantidadEmpleados, con))
+                    {
+                        con.Open();
+                        if (cmd.ExecuteScalar() != DBNull.Value)
+                        {
+                            return (int)cmd.ExecuteScalar();
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+        }
+
         public List<Empleado> obtenerTodos()
         {
             List<Empleado> empleados = new List<Empleado>();

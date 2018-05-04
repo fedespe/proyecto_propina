@@ -29,8 +29,8 @@ namespace DAL
                                 Reparto reparto = new Reparto
                                 {
                                     Id = Convert.ToInt32(dr["Id"]),
-                                    MontoTotalPesos =Convert.ToInt32(dr["MontoTotalPesos"]),
-                                    MontoTotalDolares = Convert.ToInt32(dr["MontoTotalDolares"]),
+                                    MontoTotalPesos =Convert.ToDouble(dr["MontoTotalPesos"]),
+                                    MontoTotalDolares = Convert.ToDouble(dr["MontoTotalDolares"]),
                                     Fecha = Convert.ToDateTime(dr["Fecha"]),  
                                     Activo = Convert.ToBoolean(dr["Activo"]),
                                 };
@@ -154,8 +154,8 @@ namespace DAL
                                 reparto = new Reparto
                                 {
                                     Id = Convert.ToInt32(dr["Id"]),
-                                    MontoTotalPesos = Convert.ToInt32(dr["MontoTotalPesos"]),
-                                    MontoTotalDolares = Convert.ToInt32(dr["MontoTotalDolares"]),
+                                    MontoTotalPesos = Convert.ToDouble(dr["MontoTotalPesos"]),
+                                    MontoTotalDolares = Convert.ToDouble(dr["MontoTotalDolares"]),
                                     Fecha = Convert.ToDateTime(dr["Fecha"]),
                                     Activo = Convert.ToBoolean(dr["Activo"]),
                                     RepartosDiarios = new List<RepartoDiario>()
@@ -172,10 +172,10 @@ namespace DAL
                                 reparto.RepartosDiarios.Add(new RepartoDiario
                                 {
                                     Id = Convert.ToInt32(dr["Id"]),
-                                    MontoPesosMesas = Convert.ToInt32(dr["MontoPesosMesas"]),
-                                    MontoDolaresMesas = Convert.ToInt32(dr["MontoDolaresMesas"]),
-                                    MontoPesosOtros = Convert.ToInt32(dr["MontoPesosOtros"]),
-                                    MontoDolaresOtros = Convert.ToInt32(dr["MontoDolaresOtros"]),
+                                    MontoPesosMesas = Convert.ToDouble(dr["MontoPesosMesas"]),
+                                    MontoDolaresMesas = Convert.ToDouble(dr["MontoDolaresMesas"]),
+                                    MontoPesosOtros = Convert.ToDouble(dr["MontoPesosOtros"]),
+                                    MontoDolaresOtros = Convert.ToDouble(dr["MontoDolaresOtros"]),
                                     Fecha = Convert.ToDateTime(dr["Fecha"]),
                                 });
                             }

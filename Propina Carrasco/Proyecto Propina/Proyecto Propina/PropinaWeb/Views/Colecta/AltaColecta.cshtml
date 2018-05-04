@@ -1,13 +1,13 @@
-﻿@model PropinaWeb.ViewModel.PlanillaViewModel.AltaPlanillaViewModel
+﻿@model PropinaWeb.ViewModel.ColectaViewModel.AltaColectaViewModel
 
 @{
-    ViewBag.Title = "AltaPlanilla";
+    ViewBag.Title = "AltaColecta";
 }
 
 <div class="row">
     <div class="col-xs-12">
-        <h2>Nueva Planilla</h2>
-        @using (Html.BeginForm("AltaPlanilla", "Planilla", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        <h2>Nueva Colecta</h2>
+        @using (Html.BeginForm("AltaColecta", "Colecta", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             //Seguridad
             @Html.AntiForgeryToken()
@@ -21,20 +21,21 @@
                 @Html.LabelFor(x => x.Texto, htmlAttributes: new { @class = "control-label" })
                 @*@Html.TextBoxFor(x => x.Texto, new { @id = "pregunta", @class = "form-control", @placeholder = "Texto" })*@
                 @*@Html.TextArea("Texto", null, new { @placeholder = "Los empleados firmantes de la planilla están de acuerdo en que se le pague la propina. Se aclara que con el 50% de las firmas se le pagará el 75% de la propina y con un 75% o mas de firmas se le pagará el 100% de la misma.",@class = "form-control",@rows="8", @cols = "60" })*@
-                <textarea class="form-control" cols="60" data-val="true" data-val-required="El campo Texto es obligatorio." id="Texto" name="Texto" rows="8">Los empleados firmantes en la siguiente planilla están de acuerdo en que se le acredite al empleado en cuestion la propina. Se aclara que con el 50% de las firmas se le pagará el 75% de la propina y con un 75% o mas de firmas se le pagará el 100% de la misma.</textarea>
+                <textarea class="form-control" cols="60" data-val="true" data-val-required="El campo Texto es obligatorio." id="Texto" name="Texto" rows="8">La persona anteriormente mencionada se encuentra necesitando la colaboración de los compañeros. El que pueda y quiera colaborar deberá indicar el importe a descontar en el próximo reparto de propina.</textarea>
                 @Html.ValidationMessageFor(x => x.Texto, "", new { @class = "text-danger" })
             </div>
 
             <div>
                 <label class="control-label">Seleccione un empleado</label>
-                @Html.DropDownListFor(model=>model.IdSeleccionado,Model.ListaEmpleados, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.IdSeleccionado, Model.ListaEmpleados, new { @class = "form-control" })
             </div>
 
             <br>
 
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar Planilla
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar Colecta
             </button>
         }
     </div>
 </div>
+

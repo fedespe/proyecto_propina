@@ -56,5 +56,10 @@ namespace BL
         {
             planillaDAL.deshabilitarPlanilla(id);
         }
+
+        public void eliminarPlanilla(int id)
+        {
+            planillaDAL.eliminarPlanilla(id);
+        }
     }
 }

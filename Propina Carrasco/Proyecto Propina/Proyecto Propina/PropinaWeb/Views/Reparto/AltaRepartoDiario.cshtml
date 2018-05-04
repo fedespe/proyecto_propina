@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.Fecha, htmlAttributes: new { @class = "control-label" })
-                <input class="form-control" type="date" id="Fecha" name="Fecha" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+                <input class="form-control" type="date" id="Fecha" name="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
 
             <button type="submit" class="btn btn-primary">

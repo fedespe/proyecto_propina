@@ -1,12 +1,12 @@
-﻿@model List<ET.Planilla>
+﻿@model List<ET.Colecta>
 @{
-    ViewBag.Title = "ListaPlanillas";
+    ViewBag.Title = "ListaColecta";
 }
 
 <div class="row">
     @*@Html.Partial("_MenuPartial")*@
     <div class="col-xs-12">
-        <h2>Planillas</h2>
+        <h2>Colectas</h2>
 
         <table class="table table-striped">
             <thead>
@@ -22,7 +22,7 @@
                 @foreach (var c in Model)
                 {
                     <tr>
-                        <td>@c.empleado.Nombre, @c.empleado.Apellido</td>
+                        <td>@c.EmpleadoColecta.Empleado.Nombre, @c.EmpleadoColecta.Empleado.Apellido</td>
                         <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
                         @if (c.Habilitada)
                         {
@@ -32,17 +32,17 @@
                             <td style="color:red;">Finalizada</td>
                         }
                         <td>
-                            <a title="Ver" href="~/Planilla/Ver/@c.Id">Ingresar</a>
+                            <a title="Ver" href="~/Colecta/Ver/@c.Id">Ingresar</a>
                             @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
                             {
                                 if (c.Habilitada)
                                 {
-                                    <a title="Finalizar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/DeshabilitarPlanilla/@c.Id">Finalizar</a>
+                                    <a title="Finalizar" onclick="return confirm('¿Esta seguro?');" href="~/Colecta/DeshabilitarColecta/@c.Id">Finalizar</a>
                                 }
                                 else {
-                                    <a title="Habilitar" onclick="return confirm('¿Esta seguro?');" href="~/Planilla/HabilitarPlanilla/@c.Id">Hablitar</a>
+                                    <a title="Habilitar" onclick="return confirm('¿Esta seguro?');" href="~/Colecta/HabilitarColecta/@c.Id">Hablitar</a>
                                 }
-                                <a title="Inhabilitar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Planilla/EliminarPlanilla/@c.Id">Eliminar</a>
+                                <a title="Inhabilitar" onclick="return confirm('¿Esta seguro que desea ELIMINAR?');" href="~/Colecta/EliminarColecta/@c.Id">Eliminar</a>
                             }
                         </td>
                     </tr>
@@ -51,11 +51,13 @@
         </table>
         @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR"))
         {
-            <button type="button" class="btn btn-success" OnClick="location.href = 'AltaPlanilla'">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Planilla
+            <button type="button" class="btn btn-success" OnClick="location.href = 'AltaColecta'">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Colecta
             </button>
         }
     </div>
 </div>
+
+
 
 

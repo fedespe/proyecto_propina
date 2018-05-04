@@ -1,6 +1,6 @@
 ﻿using BL;
 using ET;
-using PropinaWeb.ViewModel.RepartoViewModel;
+using PropinaWeb.ViewModel.ColectaViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +9,17 @@ using System.Web.Mvc;
 
 namespace PropinaWeb.Controllers
 {
-    public class RepartoController : Controller
+    public class ColectaController : Controller
     {
-        private RepartoBL repartoBL = new RepartoBL();
-        private RepartoDiarioBL repartoDiarioBL = new RepartoDiarioBL();
+        private ColectaBL colectaBL = new ColectaBL();
 
-        public ActionResult MostrarDatos()
+        public ActionResult ListaColecta()
         {
             if (Session["TipoUsuario"] != null)// && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
                 try
                 {
-                    MostrarDatosViewModel vm = new MostrarDatosViewModel();
-                    vm.cargarDatos();
-                    return View(vm);
+                    return View(colectaBL.obtenerTodos().OrderByDescending(p => p.Fecha).ToList());
                 }
                 catch (ProyectoException ex)
                 {
@@ -44,146 +41,14 @@ namespace PropinaWeb.Controllers
                 }
             }
         }
-
-
-        //GET: Reparto/EditarReparto
-        public ActionResult EditarReparto(int id = 0)
+        //GET: Colecta/AltaColecta
+        public ActionResult AltaColecta()
         {
             if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
                 try
                 {
-                    if (id != 0)
-                    {
-                        EditarRepartoViewModel editVM = new EditarRepartoViewModel();
-                        editVM.Reparto = repartoBL.obtener(id);
-                        editVM.Reparto.RepartosDiarios=editVM.Reparto.RepartosDiarios.OrderByDescending(p => p.Fecha).ToList();
-                        editVM.Fecha = editVM.Reparto.Fecha;
-                        return View(editVM);
-                    }
-                    else {
-                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
-                        return View("~/Views/Shared/_Mensajes.cshtml");
-                    }
-                }
-                catch (ProyectoException ex)
-                {
-                    ViewBag.Mensaje = ex.Message;
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-            }
-            else
-            {
-                try
-                {
-                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-                catch (ProyectoException ex)
-                {
-                    ViewBag.Mensaje = ex.Message;
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-            }
-        }
-
-        //POST: Reparto/EditarReparto
-        [HttpPost]
-        public ActionResult EditarReparto(EditarRepartoViewModel editVM)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    editVM.completarReparto();
-                    repartoBL.actualizarReparto(editVM.Reparto);
-
-                    return RedirectToAction("MostrarDatos");
-
-                }
-                catch (ProyectoException ex)
-                {
-                    ViewBag.Mensaje = ex.Message;
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-            }
-            else {
-                return View(editVM);
-            }
-        }
-
-        //GET: Reparto/EditarReparto
-        public ActionResult EditarRepartoDiario(int id = 0)
-        {
-            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
-            {
-                try
-                {
-                    if (id != 0)
-                    {
-                        EditarRepartoDiarioViewModel editVM = new EditarRepartoDiarioViewModel();
-                        editVM.RepartoDiario = repartoDiarioBL.obtener(id);
-                        return View(editVM);
-                    }
-                    else {
-                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
-                        return View("~/Views/Shared/_Mensajes.cshtml");
-                    }
-                }
-                catch (ProyectoException ex)
-                {
-                    ViewBag.Mensaje = ex.Message;
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-            }
-            else
-            {
-                try
-                {
-                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-                catch (ProyectoException ex)
-                {
-                    ViewBag.Mensaje = ex.Message;
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-            }
-        }
-
-        //POST: Reparto/EditarRepartoDiario
-        [HttpPost]
-        public ActionResult EditarRepartoDiario(EditarRepartoDiarioViewModel editVM)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    editVM.completarReparto();
-                    repartoDiarioBL.actualizarRepartoDiario(editVM.RepartoDiario);
-
-                    return RedirectToAction("EditarReparto","Reparto",new { id = editVM.RepartoDiario.Reparto.Id});//enviar a editar reparto con idreparto
-
-                }
-                catch (ProyectoException ex)
-                {
-                    ViewBag.Mensaje = ex.Message;
-                    return View("~/Views/Shared/_Mensajes.cshtml");
-                }
-            }
-            else {
-                return View(editVM);
-            }
-        }
-
-        //GET: Reparto/AltaReparto
-        public ActionResult AltaReparto()
-        {
-            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
-            {
-                try
-                {
-                    return View(new Reparto());
+                    return View(new AltaColectaViewModel());
                 }
                 catch (ProyectoException ex)
                 {
@@ -205,17 +70,17 @@ namespace PropinaWeb.Controllers
             }
         }
 
-        //POST: Reparto/AltaReparto
+        //POST: Colecta/AltaColecta
         [HttpPost]
-        public ActionResult AltaReparto(Reparto reparto)
+        public ActionResult AltaColecta(AltaColectaViewModel crearVM)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //reparto.completarPlanilla();
-                    repartoBL.altaReparto(reparto);
-                    return RedirectToAction("MostrarDatos");
+                    crearVM.completarPlanilla();
+                    colectaBL.altaColecta(crearVM.colecta);
+                    return RedirectToAction("ListaColecta");
                 }
                 catch (ProyectoException ex)
                 {
@@ -224,25 +89,73 @@ namespace PropinaWeb.Controllers
                 }
             }
             else {
-                return View(reparto);
+                return View(crearVM);
             }
         }
-
-        //GET: Reparto/AltaRepartoDiario
-        public ActionResult AltaRepartoDiario(int id=0)
+        //GET: Planilla/Ver
+        public ActionResult Ver(int id = 0)
         {
-            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO") || Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
                 try
                 {
                     if (id != 0)
                     {
-                        RepartoDiario repartoD = new RepartoDiario();
-                        repartoD.Reparto = new Reparto { Id = id };
-                        return View(repartoD);
+                        AltaColectaViewModel viewModel = new AltaColectaViewModel();
+                        viewModel.colecta = colectaBL.obtener(id);
+                        EmpleadoBL emp = new EmpleadoBL();
+                        viewModel.EmpleadoColecta.Empleado = emp.obtener(Convert.ToInt32(Session["IdUsuario"]));
+                        viewModel.colecta.EmpleadoColecta.Empleado = emp.obtener(viewModel.colecta.EmpleadoColecta.Empleado.Id);
+                        //viewModel.CantidadEmpleados88 = emp.obtenerCantidadEmpleados88();
+                        //viewModel.PorcentajeFirmas = viewModel.planilla.Empleados.Count * 100 / (viewModel.CantidadEmpleados88 - 1);
+                        if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO"))
+                        {
+                            viewModel.comprobarFirmas();
+                        }
+                        return View(viewModel);
                     }
                     else {
-                        ViewBag.Mensaje = "No seleccionó un reparto valido.";
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+
+        //GET: Colecta/Colaborar
+        public ActionResult Colaborar(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        ColaborarViewModel viewModel = new ColaborarViewModel();
+                        //viewModel.IdColecta = id;
+                        viewModel.Colecta.Id = id;
+                        return View(viewModel);
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono la colecta correctamente.";
                         return View("~/Views/Shared/_Mensajes.cshtml");
                     }
                 }
@@ -266,17 +179,21 @@ namespace PropinaWeb.Controllers
             }
         }
 
-        //POST: Reparto/AltaRepartoDiario
+        //POST: Colecta/AltaColecta
         [HttpPost]
-        public ActionResult AltaRepartoDiario(RepartoDiario repartoDiario)
+        public ActionResult Colaborar(ColaborarViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //reparto.completarPlanilla();
-                    repartoDiarioBL.altaRepartoDiario(repartoDiario);
-                    return RedirectToAction("EditarReparto", "Reparto", new { id = repartoDiario.Reparto.Id });//enviar a editar reparto con idreparto
+                    //viewModel.completarPlanilla();
+                    viewModel.Colecta.EmpleadoColecta.MontoDolares = viewModel.MontoDolares;
+                    viewModel.Colecta.EmpleadoColecta.MontoPesos = viewModel.MontoPesos;
+                    viewModel.Colecta.EmpleadoColecta.Empleado = new Empleado();
+                    viewModel.Colecta.EmpleadoColecta.Empleado.Id = Convert.ToInt32(Session["IdUsuario"]);
+                    colectaBL.Colaborar(viewModel.Colecta);
+                    return RedirectToAction("Ver", "Colecta", new { id = viewModel.Colecta.Id });
                 }
                 catch (ProyectoException ex)
                 {
@@ -285,12 +202,51 @@ namespace PropinaWeb.Controllers
                 }
             }
             else {
-                return View(repartoDiario);
+                return View(viewModel);
             }
         }
 
-        //GET: Reparto/ActivarReparto
-        public ActionResult ActivarReparto(int id = 0)
+        //GET: Colecta/QuitarColaboracion
+        public ActionResult QuitarColaboracion(int id = 0)
+        {
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("EMPLEADO")))
+            {
+                try
+                {
+                    if (id != 0)
+                    {
+                        colectaBL.quitarColaboracion(id, Convert.ToInt32(Session["IdUsuario"]));
+                        ViewBag.Mensaje = "Se quitó la firma con éxito";
+                        return RedirectToAction("Ver", "Colecta", new { id = id });
+                    }
+                    else {
+                        ViewBag.Mensaje = "No selecciono el usuario correctamente.";
+                        return View("~/Views/Shared/_Mensajes.cshtml");
+                    }
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+            else
+            {
+                try
+                {
+                    ViewBag.Mensaje = "No tiene permisos para relalizar esta acción.";
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+                catch (ProyectoException ex)
+                {
+                    ViewBag.Mensaje = ex.Message;
+                    return View("~/Views/Shared/_Mensajes.cshtml");
+                }
+            }
+        }
+
+        //GET: Colecta/HabilitarColecta
+        public ActionResult HabilitarColecta(int id = 0)
         {
             if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
@@ -298,8 +254,8 @@ namespace PropinaWeb.Controllers
                 {
                     if (id != 0)
                     {
-                        repartoBL.activarReparto(id);
-                        return RedirectToAction("MostrarDatos");
+                        colectaBL.habilitarColecta(id);
+                        return RedirectToAction("ListaColecta");
                     }
                     else {
                         ViewBag.Mensaje = "No selecciono el usuario correctamente.";
@@ -327,8 +283,8 @@ namespace PropinaWeb.Controllers
             }
         }
 
-        //GET: Reparto/DesactivarReparto
-        public ActionResult DesactivarReparto(int id = 0)
+        //GET: Colecta/DeshabilitarColecta
+        public ActionResult DeshabilitarColecta(int id = 0)
         {
             if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
@@ -336,8 +292,8 @@ namespace PropinaWeb.Controllers
                 {
                     if (id != 0)
                     {
-                        repartoBL.desactivarReparto(id);
-                        return RedirectToAction("MostrarDatos");
+                        colectaBL.deshabilitarColecta(id);
+                        return RedirectToAction("ListaColecta");
                     }
                     else {
                         ViewBag.Mensaje = "No selecciono el usuario correctamente.";
@@ -365,21 +321,17 @@ namespace PropinaWeb.Controllers
             }
         }
 
-
-        //GET: Reparto/VerReparto
-        public ActionResult VerReparto(int id = 0)
+        //GET: Colecta/EliminarColecta
+        public ActionResult EliminarColecta(int id = 0)
         {
-            if (Session["TipoUsuario"] != null)
+            if (Session["TipoUsuario"] != null && (Session["TipoUsuario"].ToString().Equals("ADMINISTRADOR")))
             {
                 try
                 {
                     if (id != 0)
                     {
-                        EditarRepartoViewModel editVM = new EditarRepartoViewModel();
-                        editVM.Reparto = repartoBL.obtener(id);
-                        editVM.Reparto.RepartosDiarios = editVM.Reparto.RepartosDiarios.OrderByDescending(p => p.Fecha).ToList();
-                        editVM.Fecha = editVM.Reparto.Fecha;
-                        return View(editVM);
+                        colectaBL.eliminarColecta(id);
+                        return RedirectToAction("ListaColecta");
                     }
                     else {
                         ViewBag.Mensaje = "No selecciono el usuario correctamente.";
@@ -406,6 +358,8 @@ namespace PropinaWeb.Controllers
                 }
             }
         }
+
+
 
 
     }

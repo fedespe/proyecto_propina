@@ -42,7 +42,10 @@
   <ItemGroup>
     <Compile Include="Administrador.cs" />
     <Compile Include="Cargo.cs" />
+    <Compile Include="Colecta.cs" />
+    <Compile Include="ColectaEmpleado.cs" />
     <Compile Include="Empleado.cs" />
+    <Compile Include="MensajePincipal.cs" />
     <Compile Include="Planilla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProyectoException.cs" />

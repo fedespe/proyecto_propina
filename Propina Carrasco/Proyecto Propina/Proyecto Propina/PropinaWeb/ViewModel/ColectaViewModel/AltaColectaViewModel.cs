@@ -7,18 +7,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PropinaWeb.ViewModel.PlanillaViewModel
+namespace PropinaWeb.ViewModel.ColectaViewModel
 {
-    public class AltaPlanillaViewModel
+    public class AltaColectaViewModel
     {
         private EmpleadoBL empleadoBL = new EmpleadoBL();
-        public Planilla planilla { get; set; }
+        public Colecta colecta { get; set; }
         [Required]
         [Display(Name = "Texto")]
         public string Texto { get; set; }
         public bool Firma { get; set; }
         public bool PuedeFirmar { get; set; }
-        public Empleado Empleado { get; set; }
+        public ColectaEmpleado EmpleadoColecta { get; set; }
         public List<Empleado> Empleados { get; set; }
         public int IdSeleccionado { get; set; }
         public SelectList ListaEmpleados { get; set; }
@@ -26,11 +26,13 @@ namespace PropinaWeb.ViewModel.PlanillaViewModel
         public double PorcentajeFirmas { get; set; }
 
 
-        public AltaPlanillaViewModel() {
-            planilla = new Planilla();
+        public AltaColectaViewModel()
+        {
+            colecta = new Colecta();
+            EmpleadoColecta = new ColectaEmpleado();
             List<Empleado> empleados = empleadoBL.obtenerTodos();
             foreach (Empleado e in empleados) { e.Datos = "Nº: " + e.NumeroEmpleado + " " + e.Nombre + ", " + e.Apellido; }
-            ListaEmpleados = new SelectList(empleados,"Id","Datos");
+            ListaEmpleados = new SelectList(empleados, "Id", "Datos");
         }
 
         internal void completarAltaPlanillaVM()
@@ -41,18 +43,18 @@ namespace PropinaWeb.ViewModel.PlanillaViewModel
 
         internal void completarPlanilla()
         {
-            planilla.Texto = Texto;
-            planilla.empleado = new Empleado();
-            planilla.empleado.Id = IdSeleccionado;
-            planilla.Habilitada = true;
-            planilla.Eliminado = false;
+            colecta.Texto = Texto;
+            colecta.EmpleadoColecta = new ColectaEmpleado();
+            colecta.EmpleadoColecta.Empleado = new Empleado();
+            colecta.EmpleadoColecta.Empleado.Id = IdSeleccionado;
+            colecta.Habilitada = true;
+            colecta.Eliminado = false;
         }
 
         internal void comprobarFirmas()
         {
-            Firma = planilla.Empleados.Contains(Empleado);
-            if (planilla.empleado.Id != Empleado.Id && (Empleado.Cargo.Nombre.Equals("CROUPIER") || Empleado.Cargo.Nombre.Equals("SUPERVIDOR_MESAS") 
-                || Empleado.Cargo.Nombre.Equals("CAJERO") || Empleado.Cargo.Nombre.Equals("SUPERVISOR_CAJAS")))
+            Firma = colecta.EmpleadosColecta.Contains(EmpleadoColecta);
+            if (colecta.EmpleadoColecta.Empleado.Id != EmpleadoColecta.Empleado.Id)
             {
                 PuedeFirmar = true;
             }

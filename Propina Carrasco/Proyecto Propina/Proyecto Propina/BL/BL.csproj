@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="AdministradorBL.cs" />
     <Compile Include="CargoBL.cs" />
+    <Compile Include="ColectaBL.cs" />
     <Compile Include="EmpleadoBL.cs" />
+    <Compile Include="MensajePrincipalBL.cs" />
     <Compile Include="PlanillaBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepartoBL.cs" />

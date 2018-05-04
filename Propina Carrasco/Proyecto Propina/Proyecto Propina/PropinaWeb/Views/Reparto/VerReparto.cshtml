@@ -1,0 +1,56 @@
+﻿@model PropinaWeb.ViewModel.RepartoViewModel.EditarRepartoViewModel
+@{
+    ViewBag.Title = "VerReparto";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Reparto</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Total Pesos</th>
+                    <th>Total Dolares</th>                  
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>@Model.Reparto.Fecha.ToString("dd-MM-yyyy")</td>
+                    <td>@Model.Reparto.MontoTotalPesos</td>
+                    <td>@Model.Reparto.MontoTotalDolares</td>            
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Detalle Diario</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Pesos Mesas</th>
+                    <th>Dolares Mesas</th>
+                    <th>Pesos Otras Áreas</th>
+                    <th>Dolares Otras Áreas</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var c in Model.Reparto.RepartosDiarios)
+                {
+                    <tr>
+                        <td>@c.Fecha.ToString("dd-MM-yyyy")</td>
+                        <td>@c.MontoPesosMesas</td>
+                        <td>@c.MontoDolaresMesas</td>
+                        <td>@c.MontoPesosOtros</td>
+                        <td>@c.MontoDolaresOtros</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

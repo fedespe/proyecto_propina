@@ -57,6 +57,25 @@ namespace DAL
             }
         }
 
+        public void eliminarPlanilla(int id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Utilidades.conn))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("Update Planilla SET Eliminado = 1 WHERE id = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ProyectoException("Error: " + ex.Message);
+            }
+        }
+
         public void habilitarPlanilla(int id)
         {
             try

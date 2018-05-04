@@ -29,11 +29,11 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(x => x.Fecha, htmlAttributes: new { @class = "control-label" })
-                <input class="form-control" type="date" id="Fecha" name="Fecha" value="@DateTime.Now.ToString("dd-MM-yyyy")" />
+                <input class="form-control" type="date" id="Fecha" name="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             </div>
 
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Ingresar Reparto
             </button>
             }
         </div>

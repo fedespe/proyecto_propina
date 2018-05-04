@@ -8,9 +8,9 @@
     <div class="col-xs-12">   
         <h2>Información Planilla</h2>
         <h3>Planilla para el empleado: @Model.planilla.empleado.Nombre, @Model.planilla.empleado.Apellido</h3>  
-        <div class="form-control alert-info">
+        <p>
             @Model.planilla.Texto
-        </div>
+        </p>
         <div>
             <h3>Lista de empleados que FIRMARON la planilla:</h3>
             <table class="table table-striped">
@@ -25,7 +25,7 @@
                 <tbody>
                     @foreach (var c in Model.planilla.Empleados)
                     {
-                        if (Session["IdUsuario"] != null && Convert.ToInt32(Session["IdUsuario"])==c.Id)
+                        if (Session["IdUsuario"] != null && Convert.ToInt32(Session["IdUsuario"]) == c.Id)
                         {
                             <tr class="alert-success">
                                 <td><b>@c.Nombre</b></td>
@@ -46,23 +46,24 @@
             </table>
         </div>
 
-        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar)
+        <h3>Porcentaje Firmas: @Model.PorcentajeFirmas %</h3>
+
+        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar && Model.planilla.Habilitada && !Model.planilla.Eliminado)
         {
-            if (!Model.Firma )
+            if (!Model.Firma)
             {
                 <button type="button" class="btn btn-success" OnClick="location.href = '../FirmarPlanilla/@Model.planilla.Id'">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Firmar Planilla
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Firmar 
                 </button>
             }
-            else 
+            else
             {
                 <button type="button" class="btn btn-warning" OnClick="location.href = '../QuitarFirmarPlanilla/@Model.planilla.Id'">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Quitar Firmar Planilla
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar Firmar 
                 </button>
             }
         }
         
-
         
     </div>
 </div>

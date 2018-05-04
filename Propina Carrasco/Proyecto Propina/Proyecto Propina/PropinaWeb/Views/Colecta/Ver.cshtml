@@ -1,0 +1,74 @@
+﻿@model PropinaWeb.ViewModel.ColectaViewModel.AltaColectaViewModel
+@{
+    ViewBag.Title = "Ver";
+}
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Información Colecta</h2>
+        <h3>Colecta para el empleado: @Model.colecta.EmpleadoColecta.Empleado.Nombre, @Model.colecta.EmpleadoColecta.Empleado.Apellido</h3>
+        <p>
+            @Model.colecta.Texto
+        </p>
+        <div>
+            <h3>Lista de empleados que colaboraron:</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Pesos</th>
+                        <th>Dolares</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var c in Model.colecta.EmpleadosColecta)
+                    {
+                        if (Session["IdUsuario"] != null && Convert.ToInt32(Session["IdUsuario"]) == c.Empleado.Id)
+                        {
+                            <tr class="alert-success">
+                                <td><b>@c.Empleado.Nombre</b></td>
+                                <td><b>@c.Empleado.Apellido</b></td>
+                                <td><b>$ @c.MontoPesos</b></td>
+                                <td><b>u$s @c.MontoDolares</b></td>
+                            </tr>
+                        }
+                        else {
+                            <tr>
+                                <td>@c.Empleado.Nombre</td>
+                                <td>@c.Empleado.Apellido</td>
+                                <td>$ @c.MontoPesos</td>
+                                <td>u$s @c.MontoDolares</td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @*<h3>Porcentaje Firmas: @Model.PorcentajeFirmas %</h3>*@
+
+        @if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString().Equals("EMPLEADO") && Model.PuedeFirmar && Model.colecta.Habilitada && !Model.colecta.Eliminado)
+        {
+            if (!Model.Firma)
+            {
+                <button type="button" class="btn btn-success" OnClick="location.href = '../Colaborar/@Model.colecta.Id'">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Colaborar 
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-warning" OnClick="location.href = '../QuitarColaboracion/@Model.colecta.Id'">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Quitar Colaboración
+                </button>
+            }
+        }
+
+
+    </div>
+</div>
+
+
